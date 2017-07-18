@@ -1,0 +1,118 @@
+//Name: Shivam
+//Purpose: Help user determine healthy weight
+//Description: takes user input on numerical format and shows them their healthy weight in a measurement system they prefer
+package IdealWeightCalculator;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.NumberFormat;
+import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+//importing libraries
+
+public class IdealWeightCalculator extends JFrame implements ActionListener{
+JLabel title, nameLbl, measureLbl, heightLbl, idealLbl;
+JTextField nameField, measureField, heightField;
+JButton enterbtn;
+Container frame;
+
+
+//declare all variables
+
+public IdealWeightCalculator () {
+//gui design
+    
+    super ("BMI Calculator"); //title @ top
+    
+    frame = getContentPane (); //actualbox
+    frame.setLayout(null);//default layout
+    
+      title = new JLabel ("Ideal Weight Calculator");
+    nameLbl = new JLabel ("Name: ");
+    measureLbl = new JLabel ("System of Measure (M = Metric, I = Imperial): ");
+    heightLbl = new JLabel ("Enter your height (meters for metric, inches for imperial): ");
+    idealLbl = new JLabel ("Your Ideal Weight is: ");
+    //declare all JLabels)
+    
+    nameField = new JTextField ();
+    measureField = new JTextField ();
+    heightField = new JTextField ();
+    //declare all text fields
+    
+    enterbtn = new JButton ("Calculate");
+    enterbtn.addActionListener(this);
+    //declare buttons
+    
+    
+    title.setBounds (10,0, 360,50);
+    nameLbl.setBounds (10,25, 500, 50);
+    nameField.setBounds (10,65,650,50);
+    measureLbl.setBounds (10,105,650,50);
+    measureField.setBounds (10,145, 650, 50);
+    heightLbl.setBounds (10, 205, 650, 50);
+    heightField.setBounds (10,245, 650, 50);
+    enterbtn.setBounds (10, 315, 650, 50);
+    idealLbl.setBounds (10,365,650,50);
+    //set sizes and position for all components
+    
+    frame.add(title);
+    frame.add (nameLbl);
+    frame.add(nameField);
+    frame.add(measureLbl);
+    frame.add(measureField);
+    frame.add(heightLbl);
+    frame.add(heightField);
+    frame.add(enterbtn);
+    frame.add(idealLbl);
+    //placed all components on frame
+    
+    setSize(700,600);//sets size of frame
+    setVisible(true);//sets it to be visible
+    setDefaultCloseOperation (EXIT_ON_CLOSE);//ends the process
+}
+
+
+@Override
+public void actionPerformed (ActionEvent evt){
+    if (evt.getSource () == enterbtn)
+//explains what to do if button pressed
+    {
+        String nameStr, measureStr, heightStr;
+        double heightQ, idealWeight;
+        NumberFormat decimals = NumberFormat.getInstance ();
+    decimals.setMaximumFractionDigits(2);
+    decimals.setMinimumFractionDigits(2);
+    //limiting decimal output to 2
+        nameStr = nameField.getText();
+        measureStr = measureField.getText();
+        heightStr = heightField.getText();
+        heightQ = Double.parseDouble(heightStr);
+        //parsing text field results from string to double
+        if (measureStr.equalsIgnoreCase("M")) //ignore case fuction tells java to accept both uppercase and lowercase responses
+        {
+        idealWeight = Math.pow(heightQ,2) *25;
+        idealLbl.setText(nameStr + "'s ideal weight is " + decimals.format(idealWeight) + " kg");
+        }
+        else if (measureStr.equalsIgnoreCase("I")){
+        idealWeight = (Math.pow(heightQ, 2) * 25 )/ 703;
+        idealLbl.setText(nameStr + "'s ideal weight is " + decimals.format(idealWeight) + " pounds");
+        }
+        //calculating healthy weight depending on measurement system chosen, and displaying said measurement
+        else {
+        JOptionPane.showMessageDialog(null, "please enter either I or M in the 'System of Measure' field");
+        }
+        //asking them to enter a valid entry in field if they do not do so
+    }
+//converting strings to double that java can read     
+    
+           
+}
+    public static void main(String[] args) {
+     
+    
+        IdealWeightCalculator launcher = new IdealWeightCalculator ();
+    }//launcher
+    
+}
+ 
